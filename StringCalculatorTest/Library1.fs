@@ -28,3 +28,12 @@
       let expected = calculator.Add "11,33,11,10"
       Assert.AreEqual(65,expected)
 
+   [<Test>]
+    let ``Add numbers splited by (\n)``()=
+      let expected = calculator.Add "11\n33\n11"
+      Assert.AreEqual(55,expected)
+   
+   [<Test>]
+    let ``Add more than two numbers splited by (\n) and (,)``()=
+      let expected = calculator.Add "11\n33,11\n10"
+      Assert.AreEqual(65,expected)

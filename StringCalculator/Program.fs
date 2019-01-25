@@ -13,11 +13,12 @@
     | 0 -> 
           0 
     | _ ->
-          match numbers.Contains(",") with
+          match numbers.Contains(",") || numbers.Contains("\n") with
           |false ->
              getIntValue(numbers) 
           |true ->
-                let arrayOfNumbers= numbers.Split[|','|]
+                let numbers'= numbers.Replace('\n', ',')
+                let arrayOfNumbers= numbers'.Split[|','|]
                 let validNumbers= arrayOfNumbers |> Array.map (fun x-> getIntValue(x))
                 Array.sum validNumbers
 
