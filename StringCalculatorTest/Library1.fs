@@ -1,6 +1,7 @@
 ﻿ module testModule
  open StringCalculator
  open NUnit.Framework
+ open System
 
 
  
@@ -44,3 +45,7 @@
       Assert.AreEqual(65,expected)
       let expected = calculator.Add "//*\n11*33,11,10"
       Assert.AreEqual(65,expected)
+
+   [<Test>]
+    let ``Add negative numbers``()=
+      Assert.DoesNotThrow(fun()-> (calculator.Add "77,2" |>ignore))

@@ -1,12 +1,23 @@
 ﻿ namespace StringCalculator
 
+ open System
+
 
  module calculator=
 
   let getIntValue(number:string)=
-    if System.Text.RegularExpressions.Regex("^[0-9]+$").IsMatch number
+    if System.Text.RegularExpressions.Regex("^-?[0-9]+$").IsMatch number //accept positive and negative integers
     then System.Int32.Parse(number)
     else failwithf "Not A Number %s" number
+
+  let isAllnulls list = List.forall (fun elem -> elem = null) list
+  
+  let ifNegative(number:int)=
+    if number<0 then string number else null
+
+  let getPositive(number:int[])=
+      let negatives =number |> Array.map (fun x-> ifNegative(x)) |> Array.toList
+      if  isAllnulls negatives then number else failwithf "Negative not allowed %A" negatives 
 
   let getDelimiter(line:string)=
     let indexToStartDelmFrom ="//".Length
@@ -27,6 +38,7 @@
              let numbersWithoutDelimiter''= numbersWithoutDelimiter'.Replace(newDelimiter, ",")
              numbersWithoutDelimiter''.Split[|','|]
 
+
   let Add (numbers:string) =
     match numbers.Length with 
     | 0 -> 
@@ -36,7 +48,8 @@
           |true -> //more than one number
                   let  arrayOfNumbers = splitNumbers numbers
                   let validNumbers= arrayOfNumbers |> Array.map (fun x-> getIntValue(x))
-                  Array.sum validNumbers
+                  let positiveNumbers= getPositive validNumbers
+                  Array.sum positiveNumbers
                   
 
 
