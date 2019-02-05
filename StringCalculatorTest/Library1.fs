@@ -49,3 +49,8 @@
    [<Test>]
     let ``Add negative numbers``()=
       Assert.DoesNotThrow(fun()-> (calculator.Add "77,2" |>ignore))
+
+   [<Test>]
+    let ``Ignore numbers greater than 1000``()=
+      let expected = calculator.Add "//*\n11*33,1199,10"
+      Assert.AreEqual(54,expected)

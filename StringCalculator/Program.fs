@@ -18,6 +18,10 @@
   let getPositive(number:int[])=
       let negatives =number |> Array.map (fun x-> ifNegative(x)) |> Array.toList
       if  isAllnulls negatives then number else failwithf "Negative not allowed %A" negatives 
+  
+  let checkLessThan1000(number:int)=
+    if number >1000 then 0 else number
+
 
   let getDelimiter(line:string)=
     let indexToStartDelmFrom ="//".Length
@@ -49,7 +53,8 @@
                   let  arrayOfNumbers = splitNumbers numbers
                   let validNumbers= arrayOfNumbers |> Array.map (fun x-> getIntValue(x))
                   let positiveNumbers= getPositive validNumbers
-                  Array.sum positiveNumbers
+                  let allNumbrsLessThan1000 =  positiveNumbers |> Array.map (fun x->checkLessThan1000(x))
+                  Array.sum allNumbrsLessThan1000 
                   
 
 
