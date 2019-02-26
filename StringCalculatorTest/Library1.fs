@@ -40,7 +40,7 @@
       Assert.AreEqual(65,expected)
       
    [<Test>]
-    let ``Add with new Delimiter``()=
+    let ``Add with new Delimiter with one char``()=
       let expected = calculator.Add "//;\n11\n33,11;10"
       Assert.AreEqual(65,expected)
       let expected = calculator.Add "//*\n11*33,11,10"
@@ -54,3 +54,11 @@
     let ``Ignore numbers greater than 1000``()=
       let expected = calculator.Add "//*\n11*33,1199,10"
       Assert.AreEqual(54,expected)
+       
+   [<Test>]
+    let ``Add with new Delimiter with more than one char``()=
+      let expected = calculator.Add "//[**]\n11\n33**11,10"
+      Assert.AreEqual(65,expected)
+      let expected = calculator.Add "//[&^]\n11\n33&^11,10"
+      Assert.AreEqual(65,expected)
+

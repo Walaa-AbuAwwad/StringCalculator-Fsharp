@@ -19,13 +19,21 @@
       let negatives =number |> Array.map (fun x-> ifNegative(x)) |> Array.toList
       if  isAllnulls negatives then number else failwithf "Negative not allowed %A" negatives 
   
-  let checkLessThan1000(number:int)=
+  let ignoreGreaterThan1000(number:int)=
     if number >1000 then 0 else number
 
 
   let getDelimiter(line:string)=
-    let indexToStartDelmFrom ="//".Length
-    line.Substring(indexToStartDelmFrom)
+    match line.Contains("[") with
+    |true ->
+         let startIndex =line.IndexOf("[")+1
+         let endIndex =line.IndexOf("]")
+         let delLength=endIndex-startIndex
+         line.Substring(startIndex,delLength)
+    |false ->
+           let indexToStartDelmFrom =line.LastIndexOf("/")+1
+           line.Substring(indexToStartDelmFrom)
+
 
   let splitNumbers (numbers:string)=
      match numbers.StartsWith("//") with
@@ -36,7 +44,7 @@
              let lines =numbers.Split[|'\n'|]
              let firstLine=lines.[0]
              let newDelimiter =getDelimiter firstLine
-             let indexForNumbersWithoutDelm =firstLine.Length+1 
+             let indexForNumbersWithoutDelm =firstLine.Length+1
              let numbersWithoutDelimiter= numbers.Substring(indexForNumbersWithoutDelm)
              let numbersWithoutDelimiter'= numbersWithoutDelimiter.Replace("\n", ",")
              let numbersWithoutDelimiter''= numbersWithoutDelimiter'.Replace(newDelimiter, ",")
@@ -53,7 +61,7 @@
                   let  arrayOfNumbers = splitNumbers numbers
                   let validNumbers= arrayOfNumbers |> Array.map (fun x-> getIntValue(x))
                   let positiveNumbers= getPositive validNumbers
-                  let allNumbrsLessThan1000 =  positiveNumbers |> Array.map (fun x->checkLessThan1000(x))
+                  let allNumbrsLessThan1000 =  positiveNumbers |> Array.map (fun x->ignoreGreaterThan1000(x))
                   Array.sum allNumbrsLessThan1000 
                   
 
