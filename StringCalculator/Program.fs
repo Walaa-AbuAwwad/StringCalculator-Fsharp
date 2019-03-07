@@ -18,6 +18,7 @@
              getIntValue(numbers) 
           |true ->
                 let arrayOfNumbers= numbers.Split[|','|]
-                getIntValue(arrayOfNumbers.[0]) + getIntValue(arrayOfNumbers.[1])
+                let validNumbers= arrayOfNumbers |> Array.map (fun x-> getIntValue(x))
+                Array.sum validNumbers
 
   

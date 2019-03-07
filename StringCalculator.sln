@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "StringCalculator", "StringCalculator\StringCalculator.fsproj", "{AA8E004D-9129-49B3-921C-DC92291B2F15}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "StringCalculatorTest", "StrinCalculatorTest\StringCalculatorTest.fsproj", "{128E88A8-ECFC-4D7B-A9D6-E658658673A5}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "StringCalculatorTest", "StringCalculatorTest\StringCalculatorTest.fsproj", "{128E88A8-ECFC-4D7B-A9D6-E658658673A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

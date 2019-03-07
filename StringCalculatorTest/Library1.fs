@@ -23,3 +23,8 @@
       let expected = calculator.Add "11,33"
       Assert.AreEqual(44,expected)
 
+   [<Test>]
+    let ``Add more than two numbers splited by (,)``()=
+      let expected = calculator.Add "11,33,11,10"
+      Assert.AreEqual(65,expected)
+
