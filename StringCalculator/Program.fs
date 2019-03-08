@@ -22,18 +22,23 @@
   let ignoreGreaterThan1000(number:int)=
     if number >1000 then 0 else number
 
+  let getSingleDelimiter(dlm:string)=
+    let startIndex =dlm.IndexOf("[")+1
+    dlm.Substring(startIndex)
 
-  let getDelimiter(line:string)=
+  let getDelimiters(line:string)=
     match line.Contains("[") with
     |true ->
-         let startIndex =line.IndexOf("[")+1
-         let endIndex =line.IndexOf("]")
-         let delLength=endIndex-startIndex
-         line.Substring(startIndex,delLength)
+          let delimiters=line.Split[|']'|]
+          delimiters |> Array.map (fun x-> getSingleDelimiter(x)) 
     |false ->
            let indexToStartDelmFrom =line.LastIndexOf("/")+1
-           line.Substring(indexToStartDelmFrom)
-
+           [|line.Substring(indexToStartDelmFrom) |]
+           
+  let rec replaceDelimitersWithComma (numbers:string) (delimiters:string[]) (index:int) = 
+   if index = delimiters.Length || delimiters.[index] =""
+   then numbers 
+   else replaceDelimitersWithComma (numbers.Replace(delimiters.[index],",")) delimiters (index+1)
 
   let splitNumbers (numbers:string)=
      match numbers.StartsWith("//") with
@@ -43,13 +48,12 @@
      |true -> 
              let lines =numbers.Split[|'\n'|]
              let firstLine=lines.[0]
-             let newDelimiter =getDelimiter firstLine
              let indexForNumbersWithoutDelm =firstLine.Length+1
-             let numbersWithoutDelimiter= numbers.Substring(indexForNumbersWithoutDelm)
-             let numbersWithoutDelimiter'= numbersWithoutDelimiter.Replace("\n", ",")
-             let numbersWithoutDelimiter''= numbersWithoutDelimiter'.Replace(newDelimiter, ",")
+             let numbersWithoutDelimiter =numbers.Substring(indexForNumbersWithoutDelm)
+             let delimiters =getDelimiters firstLine
+             let numbersWithoutDelimiter' =numbersWithoutDelimiter.Replace("\n", ",")
+             let numbersWithoutDelimiter'' =replaceDelimitersWithComma numbersWithoutDelimiter' delimiters 0
              numbersWithoutDelimiter''.Split[|','|]
-
 
   let Add (numbers:string) =
     match numbers.Length with 
