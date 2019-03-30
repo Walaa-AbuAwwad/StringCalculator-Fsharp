@@ -1,31 +1,37 @@
 ﻿ namespace StringCalculator
 
- open System
-
 
  module calculator=
 
-  let getIntValue(number:string)=
+//check valid string -numbers- and convert to integer /throws exception if not
+  let getIntValue(number:string)= 
     if System.Text.RegularExpressions.Regex("^-?[0-9]+$").IsMatch number //accept positive and negative integers
     then System.Int32.Parse(number)
     else failwithf "Not A Number %s" number
 
-  let isAllnulls list = List.forall (fun elem -> elem = null) list
-  
-  let ifNegative(number:int)=
+//check if all elements of list are nulls
+  let isAllnulls list = List.forall (fun elem -> elem = null) list 
+
+//checks if it is a negative integer  
+  let ifNegative(number:int)= 
     if number<0 then string number else null
 
+//filter the numbers to get positives 
+//throw exception for negative values and returns them with exception msg  
   let getPositive(number:int[])=
       let negatives =number |> Array.map (fun x-> ifNegative(x)) |> Array.toList
       if  isAllnulls negatives then number else failwithf "Negative not allowed %A" negatives 
-  
+
+//ignore > 1000 integer   
   let ignoreGreaterThan1000(number:int)=
     if number >1000 then 0 else number
 
+//parse delimiter []
   let getSingleDelimiter(dlm:string)=
     let startIndex =dlm.IndexOf("[")+1
     dlm.Substring(startIndex)
 
+//get delimiters from the first line 
   let getDelimiters(line:string)=
     match line.Contains("[") with
     |true ->
@@ -34,12 +40,14 @@
     |false ->
            let indexToStartDelmFrom =line.LastIndexOf("/")+1
            [|line.Substring(indexToStartDelmFrom) |]
-           
+
+//replace all delimiters with comma           
   let rec replaceDelimitersWithComma (numbers:string) (delimiters:string[]) (index:int) = 
    if index = delimiters.Length || delimiters.[index] =""
    then numbers 
    else replaceDelimitersWithComma (numbers.Replace(delimiters.[index],",")) delimiters (index+1)
 
+//return string numbers splited according to the delimiters
   let splitNumbers (numbers:string)=
      match numbers.StartsWith("//") with
      |false ->
@@ -54,6 +62,7 @@
              let numbersWithoutDelimiter' =numbersWithoutDelimiter.Replace("\n", ",")
              let numbersWithoutDelimiter'' =replaceDelimitersWithComma numbersWithoutDelimiter' delimiters 0
              numbersWithoutDelimiter''.Split[|','|]
+
 
   let Add (numbers:string) =
     match numbers.Length with 
